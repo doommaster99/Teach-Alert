@@ -29,7 +29,7 @@
   --club: #0e8f8a;
   --sub: #d03b3b;
   --act: #c0359a;
-  --p8: #2563eb;
+  --p8: #2563eb; --al: #0284c7; --tg: #854d0e;
   --font-display: "Prompt", "Noto Sans Thai", system-ui, sans-serif;
   --font-body: "Sarabun", "Noto Sans Thai", system-ui, sans-serif;
 }
@@ -37,14 +37,14 @@
   :root:not([data-theme="light"]) {
     --bg: #0c1712; --surface: #14241c; --fg: #e6f4ec; --muted: #94b0a2; --line: #244034;
     --accent: #4ade80; --accent-fg: #06210f; --now: #f5c542; --now-fg: #2a1d00;
-    --soc: #4ade80; --his: #e09a62; --soc2: #b39cf5; --club: #4fd1cb; --sub: #ff8a7a; --act: #ee86d0; --p8: #7fa8ff;
+    --soc: #4ade80; --his: #e09a62; --soc2: #b39cf5; --club: #4fd1cb; --sub: #ff8a7a; --act: #ee86d0; --p8: #7fa8ff; --al: #5cc0f5; --tg: #e3b341;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0c1712; --surface: #14241c; --fg: #e6f4ec; --muted: #94b0a2; --line: #244034;
   --accent: #4ade80; --accent-fg: #06210f; --now: #f5c542; --now-fg: #2a1d00;
-  --soc: #4ade80; --his: #e09a62; --soc2: #b39cf5; --club: #4fd1cb; --sub: #ff8a7a; --act: #ee86d0; --p8: #7fa8ff;
+  --soc: #4ade80; --his: #e09a62; --soc2: #b39cf5; --club: #4fd1cb; --sub: #ff8a7a; --act: #ee86d0; --p8: #7fa8ff; --al: #5cc0f5; --tg: #e3b341;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -89,7 +89,7 @@ h2 { margin: 0; font-size: 1rem; font-weight: 600; }
 .row.now { border-color: var(--now); box-shadow: 0 0 0 2px var(--now); }
 .num { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 1.3rem; font-weight: 600; color: #fff; background: var(--soc); }
 .k-soc .num { background: var(--soc); } .k-his .num { background: var(--his); } .k-soc2 .num { background: var(--soc2); }
-.k-club .num { background: var(--club); } .k-sub .num { background: var(--sub); } .k-act .num { background: var(--act); } .k-p8 .num { background: var(--p8); }
+.k-club .num { background: var(--club); } .k-sub .num { background: var(--sub); } .k-act .num { background: var(--act); } .k-p8 .num { background: var(--p8); } .k-al .num { background: var(--al); } .k-tg .num { background: var(--tg); }
 .dark-text { color: #111; }
 :root[data-theme="dark"] .num { color: #0f1420; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .num { color: #0f1420; } }
@@ -112,7 +112,7 @@ tbody th small { display: block; color: var(--muted); font-weight: 400; }
 td span { display: block; font-weight: 600; }
 td span small { font-weight: 500; font-size: 0.7rem; margin-left: 3px; opacity: 0.85; }
 .c-soc { color: var(--soc); } .c-his { color: var(--his); } .c-soc2 { color: var(--soc2); } .c-club { color: var(--club); }
-.c-sub { color: var(--sub); } .c-act { color: var(--act); } .c-p8 { color: var(--p8); }
+.c-sub { color: var(--sub); } .c-act { color: var(--act); } .c-p8 { color: var(--p8); } .c-al { color: var(--al); } .c-tg { color: var(--tg); }
 tr.today th { color: var(--accent); }
 td.cur { background: var(--now); } td.cur span { color: var(--now-fg); }
 
@@ -176,6 +176,10 @@ input[type="time"], input[type="date"], input[type="text"], select, textarea { m
 .tab.fab.on .ic { background: var(--accent); }
 .tab:active .ic { transform: scale(0.92); }
 .copy { text-align: center; font-size: 0.75rem; color: var(--muted); margin: 6px 0 0; }
+.chks { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
+.chk { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--fg); cursor: pointer; }
+.chk input { width: 20px; height: 20px; min-height: 0; accent-color: var(--accent); }
+.chk small { color: var(--muted); }
 </style>
 </head>
 <body>
@@ -220,6 +224,8 @@ input[type="time"], input[type="date"], input[type="text"], select, textarea { m
       <span><i style="background:var(--sub)"></i>สอนแทน</span>
       <span><i style="background:var(--act)"></i>กิจกรรม</span>
       <span><i style="background:var(--p8)"></i>คาบ 8 เรียนพิเศษ</span>
+      <span><i style="background:var(--al)"></i>A-Level สังคม (เสาร์)</span>
+      <span><i style="background:var(--tg)"></i>TGAT3 (เสาร์)</span>
     </div>
   </section>
   </main>
@@ -229,11 +235,13 @@ input[type="time"], input[type="date"], input[type="text"], select, textarea { m
     <div class="settings">
       <div class="form">
         <label for="xType">ประเภท</label>
-        <select id="xType"><option value="sub">สอนแทน</option><option value="act">กิจกรรม</option><option value="p8">คาบ 8 เรียนพิเศษ</option></select>
+        <select id="xType"><option value="sub">สอนแทน</option><option value="act">กิจกรรม</option><option value="p8">คาบ 8 เรียนพิเศษ</option><option value="al">A-Level สังคม (เสาร์)</option><option value="tg">TGAT3 (เสาร์)</option></select>
         <label for="xDate">วันที่</label>
         <input type="date" id="xDate">
-        <label for="xPeriod">คาบ</label>
+        <label for="xPeriod" id="xPeriodLbl">คาบ</label>
         <select id="xPeriod"></select>
+        <label id="xSatLbl" hidden>คาบวันเสาร์</label>
+        <div id="xSat" class="chks" hidden></div>
         <label for="xCls">ชั้น</label>
         <input type="text" id="xCls" placeholder="เช่น ม.3/2" autocomplete="off">
         <label for="xRoom">ห้อง</label>
@@ -273,6 +281,9 @@ input[type="time"], input[type="date"], input[type="text"], select, textarea { m
     <div class="settings">
       <p class="note">พักเบรก 09:50–10:10 · พักกลางวัน 11:00–11:50 · พักเบรก 13:30–13:40 ปรับเวลาแต่ละคาบได้ ระบบจะบันทึกค่าไว้ในเบราว์เซอร์เครื่องนี้ เวลาคาบ 8 เป็นค่าสมมติ</p>
       <div class="times" id="times"></div>
+      <h2>เวลาคาบวันเสาร์</h2>
+      <p class="note">วันเสาร์ใช้เวลาของตัวเอง (คาบ 1–3) แยกจากวันจันทร์–ศุกร์ ค่าตั้งต้น พักเบรก 10:30–10:50</p>
+      <div class="times" id="satTimes"></div>
       <div class="line">
         <label for="lead">เตือนก่อนเริ่มคาบ</label>
         <select id="lead" style="width:auto">
@@ -334,7 +345,9 @@ var KIND = {
   club: { name: "ชมรม", tag: "" },
   sub:  { name: "สอนแทน", tag: "แทน" },
   act:  { name: "กิจกรรม", tag: "กิจกรรม" },
-  p8:   { name: "คาบ 8 เรียนพิเศษ", tag: "พิเศษ" }
+  p8:   { name: "คาบ 8 เรียนพิเศษ", tag: "พิเศษ" },
+  al:   { name: "A-Level สังคม", tag: "" },
+  tg:   { name: "TGAT3", tag: "" }
 };
 /* วัน 1=จันทร์ ... 6=เสาร์ */
 var DEFAULT_SCHEDULE = [
@@ -359,6 +372,10 @@ var DEFAULT_TIMES = [
   ["12:40","13:30"],["13:40","14:30"],["14:30","15:20"],["15:20","16:10"]
 ];
 var times = DEFAULT_TIMES.map(function (t) { return t.slice(); });
+/* วันเสาร์มีคาบ 1-3 เวลาแยกจากวันปกติ (พักเบรก 10:30-10:50) */
+var DEFAULT_SAT = [["08:30","09:30"],["09:30","10:30"],["10:50","11:50"]];
+var satTimes = DEFAULT_SAT.map(function (t) { return t.slice(); });
+function timeFor(p, dow) { return dow === 6 && p <= 3 ? satTimes[p - 1] : times[p - 1]; }
 var lead = 10;
 var extras = [];   /* คาบพิเศษครั้งเดียว: {id, date:"YYYY-MM-DD", p, type:"sub"|"act", cls, room, title} */
 var selDay = null;
@@ -390,6 +407,7 @@ function applyData(d) {
   if (!d) return;
   if (typeof d.name === "string" && d.name.trim()) setTeacher(d.name);
   if (d.times && d.times.length === 8) times = d.times;
+  if (d.satTimes && d.satTimes.length === 3) satTimes = d.satTimes;
   var l = parseInt(d.lead, 10);
   if (l) lead = l;
   if (d.extras && d.extras.length) extras = d.extras;
@@ -400,7 +418,7 @@ function applyData(d) {
 }
 function payload() {
   var cutoff = ymd(addDays(new Date(), -60));
-  return { name: teacher, schedule: SCHEDULE, times: times, lead: lead, extras: extras.filter(function (x) { return x.date >= cutoff; }) };
+  return { name: teacher, schedule: SCHEDULE, times: times, satTimes: satTimes, lead: lead, extras: extras.filter(function (x) { return x.date >= cutoff; }) };
 }
 function loadAll(cb) {
   if (HAS_GAS) {
@@ -436,7 +454,7 @@ function parseYmd(s) { var a = s.split("-"); return new Date(parseInt(a[0], 10),
 function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
 function mk(base, extra) {
-  var t = times[base.p - 1];
+  var t = timeFor(base.p, extra ? parseYmd(base.date).getDay() : base.d);
   return {
     p: base.p, k: extra ? base.type : base.k, extra: !!extra, id: extra ? base.id : "",
     cls: base.cls || "", room: extra ? (base.room || "") : "", title: extra ? (base.title || "") : "",
@@ -566,7 +584,7 @@ function renderWeek(ni) {
     for (var p2 = 1; p2 <= 8; p2++) {
       var parts = itemsForDay(d, ds).filter(function (it) { return it.p === p2; });
       if (!parts.length) { h += "<td></td>"; continue; }
-      var t = times[p2 - 1];
+      var t = timeFor(p2, d);
       var cur = isToday && ni.sec >= toMin(t[0]) * 60 && ni.sec < toMin(t[1]) * 60;
       h += '<td class="has' + (cur ? " cur" : "") + '">' + parts.map(function (it) {
         var tag = it.extra ? "<small>" + KIND[it.k].tag + "</small>" : "";
@@ -591,7 +609,7 @@ function renderExtras() {
   ul.innerHTML = up.map(function (x) {
     var main = x.cls || x.title || KIND[x.type].name;
     var sub = KIND[x.type].name + (x.cls && x.title ? " · " + x.title : "");
-    var t = times[x.p - 1];
+    var t = timeFor(x.p, parseYmd(x.date).getDay());
     return '<li class="row k-' + x.type + '"><div class="num">' + x.p + '</div><div><div class="cls">' + esc(main) +
       '</div><div class="subj">' + esc(fmtShortDate(x.date)) + ' · ' + esc(sub) + ' · ' + t[0] + '–' + t[1] + '</div>' +
       (x.room ? '<div class="room">ห้อง ' + esc(x.room) + '</div>' : "") +
@@ -609,12 +627,22 @@ function renderExtras() {
 function fillPeriodSelect() {
   var sel = document.getElementById("xPeriod");
   var keep = sel.value;
-  sel.innerHTML = times.map(function (t, i) {
+  var dv = document.getElementById("xDate").value, dow = dv ? parseYmd(dv).getDay() : 1;
+  sel.innerHTML = times.map(function (t0, i) {
+    var t = timeFor(i + 1, dow);
     return '<option value="' + (i + 1) + '">คาบ ' + (i + 1) + (i === 7 ? " (พิเศษ)" : "") + " · " + t[0] + "–" + t[1] + "</option>";
   }).join("");
   if (keep) sel.value = keep;
+  renderSatChecks();
 }
 
+function renderSatChecks() {
+  var box = document.getElementById("xSat"), on = {};
+  [].slice.call(box.querySelectorAll("input")).forEach(function (c) { on[c.value] = c.checked; });
+  box.innerHTML = satTimes.map(function (t, i) {
+    return '<label class="chk"><input type="checkbox" value="' + (i + 1) + '"' + (on[i + 1] ? " checked" : "") + '> คาบ ' + (i + 1) + ' <small>' + t[0] + '–' + t[1] + '</small></label>';
+  }).join("");
+}
 function renderTimes() {
   var box = document.getElementById("times");
   box.innerHTML = "";
@@ -627,6 +655,19 @@ function renderTimes() {
     box.appendChild(l); box.appendChild(a); box.appendChild(b);
   });
   document.getElementById("lead").value = String(lead);
+  renderSatTimes();
+}
+function renderSatTimes() {
+  var box = document.getElementById("satTimes");
+  box.innerHTML = "";
+  satTimes.forEach(function (t, i) {
+    var l = document.createElement("label"); l.textContent = "คาบ " + (i + 1); l.htmlFor = "ss" + i;
+    var a = document.createElement("input"); a.type = "time"; a.id = "ss" + i; a.value = t[0];
+    var b = document.createElement("input"); b.type = "time"; b.id = "se" + i; b.value = t[1];
+    a.onchange = function () { if (a.value) { satTimes[i][0] = a.value; save(); fillPeriodSelect(); renderAll(); } };
+    b.onchange = function () { if (b.value) { satTimes[i][1] = b.value; save(); fillPeriodSelect(); renderAll(); } };
+    box.appendChild(l); box.appendChild(a); box.appendChild(b);
+  });
 }
 
 function renderAll() {
@@ -674,6 +715,7 @@ function tick() {
 document.getElementById("lead").onchange = function () { lead = parseInt(this.value, 10) || 10; save(); };
 document.getElementById("resetBtn").onclick = function () {
   times = DEFAULT_TIMES.map(function (t) { return t.slice(); });
+  satTimes = DEFAULT_SAT.map(function (t) { return t.slice(); });
   save(); renderTimes(); fillPeriodSelect(); renderAll();
 };
 document.getElementById("notifyBtn").onclick = function () {
@@ -684,6 +726,7 @@ document.getElementById("notifyBtn").onclick = function () {
     });
   } catch (e) { showToast("เปิดการแจ้งเตือนไม่ได้ ระบบจะแสดงแถบเตือนในหน้านี้แทน"); }
 };
+function isSatKind(v) { return v === "al" || v === "tg"; }
 document.getElementById("xAdd").onclick = function () {
   var msg = document.getElementById("xMsg");
   var date = document.getElementById("xDate").value;
@@ -692,7 +735,22 @@ document.getElementById("xAdd").onclick = function () {
   var title = document.getElementById("xTitle").value.trim();
   msg.className = "note err";
   if (!date) { msg.textContent = "เลือกวันที่ก่อน"; return; }
-  if (!cls && !room && !title && document.getElementById("xType").value !== "p8") { msg.textContent = "กรอกชั้น ห้อง หรือวิชา/กิจกรรมอย่างน้อยหนึ่งช่อง"; return; }
+  if (!cls && !room && !title && document.getElementById("xType").value !== "p8" && !isSatKind(document.getElementById("xType").value)) { msg.textContent = "กรอกชั้น ห้อง หรือวิชา/กิจกรรมอย่างน้อยหนึ่งช่อง"; return; }
+  var tv = document.getElementById("xType").value;
+  if (isSatKind(tv)) {
+    var ps = [].slice.call(document.querySelectorAll("#xSat input:checked")).map(function (c) { return parseInt(c.value, 10); });
+    if (!ps.length) { msg.textContent = "เลือกคาบอย่างน้อย 1 คาบ"; return; }
+    var added = [];
+    ps.forEach(function (p) {
+      if (extras.some(function (e) { return e.date === date && e.p === p && e.type === tv; })) return;
+      extras.push({ id: "x" + Date.now() + p + Math.floor(Math.random() * 1000), date: date, p: p, type: tv, cls: cls, room: room, title: title });
+      added.push(p);
+    });
+    save(); msg.className = "note";
+    msg.textContent = added.length ? "เพิ่มแล้ว: " + KIND[tv].name + " " + fmtShortDate(date) + " คาบ " + added.join(", ") : "มีคาบเหล่านี้อยู่แล้ว";
+    renderAll();
+    return;
+  }
   var x = {
     id: "x" + Date.now() + Math.floor(Math.random() * 1000),
     date: date,
@@ -712,6 +770,14 @@ document.getElementById("xAdd").onclick = function () {
 
 document.getElementById("xType").onchange = function () {
   if (this.value === "p8") document.getElementById("xPeriod").value = "8";
+  var sat = isSatKind(this.value);
+  ["xPeriod", "xPeriodLbl"].forEach(function (id) { document.getElementById(id).hidden = sat; });
+  ["xSat", "xSatLbl"].forEach(function (id) { document.getElementById(id).hidden = !sat; });
+  if (sat) {
+    var dv = document.getElementById("xDate"), d0 = dv.value ? parseYmd(dv.value) : new Date();
+    if (d0.getDay() !== 6) dv.value = ymd(addDays(d0, (6 - d0.getDay() + 7) % 7));
+    fillPeriodSelect();
+  }
 };
 
 /* ---------- อัปเดตตาราง: แก้ไขเอง / นำเข้า Excel / นำเข้ารูป ---------- */
@@ -1017,7 +1083,7 @@ function buildIcs(weeks) {
     L.push("DESCRIPTION:" + icsEsc(desc), "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsEsc(title), "TRIGGER:-PT" + lead + "M", "END:VALARM", "END:VEVENT");
   }
   SCHEDULE.forEach(function (e) {
-    var t = times[e.p - 1];
+    var t = timeFor(e.p, e.d);
     if (!t || !BY[e.d]) return;
     var first = addDays(today, (e.d - today.getDay() + 7) % 7), kn = KIND[e.k] ? KIND[e.k].name : "";
     ev("ut-" + e.d + "-" + e.p + "-" + String(e.cls || "").replace(/[^A-Za-z0-9ก-๙]/g, ""),
@@ -1026,7 +1092,7 @@ function buildIcs(weeks) {
   });
   var cutoff = ymd(today);
   extras.forEach(function (x) {
-    var t = times[x.p - 1];
+    var t = x.date ? timeFor(x.p, parseYmd(x.date).getDay()) : null;
     if (!t || !x.date || x.date < cutoff) return;
     var day = parseYmd(x.date), kn = KIND[x.type] ? KIND[x.type].name : "คาบพิเศษ";
     ev("ut-x-" + x.date + "-" + x.p, (kn + " คาบ " + x.p + " " + (x.cls || x.title || "")).trim(), icsAt(day, t[0]), icsAt(day, t[1]),
@@ -1078,6 +1144,7 @@ document.getElementById("bkLoad").onclick = function () {
 
 /* ---------- เริ่มทำงาน ---------- */
 document.getElementById("xDate").value = ymd(new Date());
+document.getElementById("xDate").onchange = function () { fillPeriodSelect(); };
 renderTimes(); fillPeriodSelect(); renderAll(); renderEditor(); tick();
 setInterval(tick, 1000);
 loadAll(function (d) {

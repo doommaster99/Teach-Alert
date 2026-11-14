@@ -1,5 +1,5 @@
 // Service worker: ใช้แคชเพื่อเปิดแอปได้แม้ออฟไลน์ (ถ้าแก้ไฟล์ ให้เปลี่ยนเลขเวอร์ชันด้านล่าง)
-var CACHE = "teach-alert-v4";
+var CACHE = "teach-alert-v6";
 var CORE = ["./", "index.html", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); }).then(function () { return self.skipWaiting(); }));
